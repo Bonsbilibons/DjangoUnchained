@@ -1,0 +1,28 @@
+﻿body {
+    background-color: #e0ccbc;
+}
+
+.search {
+    background-color: #9e938b;
+    background-image: url('images/search-icon-png-21.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 70%;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px;
+    position: fixed;
+    top: 0;
+    left: 20%;
+    right: 80%;
+    width: 20%;
+    height: 2%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    border: 1px solid white;
+}
+
+.search:hover {
+        border-color: black;
+}
