@@ -1,13 +1,24 @@
 ﻿﻿{% extends 'blog/main.html'%}
 
-{% block title %}Main branch{% endblock %}
+{% block title %}Front Page{% endblock %}
 
 {% block content %}
 
 <body>
-	<div class="search">
-		<a>Слава Україні!</a>
-	</div>
-</body>
 
+    <div class="header">
+        <div class="search">
+            <a>Що бажаєте знайти ?</a>
+        </div>
+        {% if user.is_authenticated %}
+        <h3>{{ user }}</h3>
+        <a href="{% url 'logout' %}"><button class="btn right-left">Logout</button></a>
+        {% else  %}
+        <a href="{% url 'register' %}"><button class="btn right-left primary">Register</button></a>
+        <a href="{% url 'login' %}"><button class="btn right-right secondary">Log in</button></a>
+        {% endif %}
+    </div>
+
+
+</body>
 {% endblock %}

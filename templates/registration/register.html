@@ -1,0 +1,19 @@
+{% extends 'blog/main.html'%}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+
+<div class="user_creation_frame">
+    <form action="{% url 'register'%}" method="post">
+        {% csrf_token %}
+
+        <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
+        <input type="email" placeholder="{{form.email.label}}" name="email" /><br>
+        <input type="password" placeholder="{{form.password1.label}}" name="password1" /><br>
+        <input type="password" placeholder="{{form.password2.label}}" name="password2" /><br>
+
+        <button type="submit">submit</button>
+    </form>
+</div>
+{% endblock %}
