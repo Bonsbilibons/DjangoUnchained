@@ -1,28 +1,79 @@
 ﻿body {
     background-color: #e0ccbc;
+    margin: 0;
 }
 
 .search {
     background-color: #9e938b;
     background-image: url('images/search-icon-png-21.png');
     background-repeat: no-repeat;
-    background-position: right center;
+    background-position: 95%;
     background-size: auto 70%;
     border-radius: 6px;
     padding: 15px;
     margin: 15px;
-    position: fixed;
-    top: 0;
-    left: 20%;
-    right: 80%;
+    position: absolute;
+    top: 55%;
+    left: 10%;
+    right: 90%;
     width: 20%;
-    height: 2%;
+    height: 13%;
     display: flex;
     justify-content: left;
     align-items: center;
     border: 1px solid white;
+    transition: background-position 0.5s ease-in-out;
+    color: aquamarine;
+    transform: translateY(-100%);
 }
 
 .search:hover {
         border-color: black;
+        background-position: 50%;
+}
+
+.header {
+    background-color: white;
+    height: 15%;
+    margin: 0;
+    position: relative;
+}
+
+:root {
+    --primary-color: #f4f4f4; 
+    --secondary-color: #ccc; 
+}
+
+.btn {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.btn.secondary {
+    background-color: var(--secondary-color);
+}
+
+.right-left {
+    top: 50%;
+    right: 10%;
+}
+.right-right {
+    top: 50%;
+    right: 5%;
+}
+
+.btn:hover {
+    background-color: #757272;
+    color: #4ced67;
+}
+
+.btn.secondary:hover {
+    background-color: #4ced67;
+    color: black;
 }
