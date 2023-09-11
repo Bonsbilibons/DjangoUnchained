@@ -4,16 +4,36 @@
 
 {% block content %}
 
-<div class="user_creation_frame">
-    <form action="{% url 'register'%}" method="post">
-        {% csrf_token %}
+<body>
 
-        <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
-        <input type="email" placeholder="{{form.email.label}}" name="email" /><br>
-        <input type="password" placeholder="{{form.password1.label}}" name="password1" /><br>
-        <input type="password" placeholder="{{form.password2.label}}" name="password2" /><br>
+    <div class="user_creation_frame ">
+        <form action="{% url 'register'%}" method="post">
+            {% csrf_token %}
 
-        <button type="submit">submit</button>
-    </form>
-</div>
+            <div class="input_form">
+                <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
+            </div>
+
+            <div class="input_form">
+                <input type="email" placeholder="{{form.email.label}}" name="email" /><br>
+            </div>
+
+            <div class="input_form">
+                <input type="password" placeholder="{{form.password1.label}}" name="password1" /><br>
+            </div>
+
+            <div class="input_form">
+                <input type="password" placeholder="{{form.password2.label}}" name="password2" /><br>
+            </div>
+
+            <button class="btn secondary center" type="submit">submit</button>
+
+        </form>
+    </div>
+
+    <div>
+        <h2>{{form.username.help_text}}</h2>
+    </div>
+
+</body>
 {% endblock %}
