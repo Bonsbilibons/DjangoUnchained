@@ -6,34 +6,62 @@
 
 <body>
 
+    
+
     <div class="user_creation_frame ">
         <form action="{% url 'register'%}" method="post">
             {% csrf_token %}
 
+            {% if form.errors.username %}
+            <div class="input_form_error">
+                <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
+            </div>
+            {% else %}
             <div class="input_form">
                 <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
             </div>
+            {% endif %}
 
+            {% if form.errors.email %}
+            <div class="input_form_error">
+                <input type="email" placeholder="{{form.email.label}}" name="email" /><br>
+            </div>
+            {% else %}
             <div class="input_form">
                 <input type="email" placeholder="{{form.email.label}}" name="email" /><br>
             </div>
+            {% endif %}
 
+            {% if form.errors.password1 %}
+            <div class="input_form_error">
+                <input type="password" placeholder="{{form.password1.label}}" name="password1" /><br>
+            </div>
+            {% else %}
             <div class="input_form">
                 <input type="password" placeholder="{{form.password1.label}}" name="password1" /><br>
             </div>
+            {% endif %}
 
+            {% if form.errors.password2 %}
+            <div class="input_form_error">
+                <input type="password" placeholder="{{form.password2.label}}" name="password2" /><br>
+            </div>
+            {% else %}
             <div class="input_form">
                 <input type="password" placeholder="{{form.password2.label}}" name="password2" /><br>
             </div>
+            {% endif %}
 
             <button class="btn secondary center" type="submit">submit</button>
+
+            <div class="creation_errors">
+                <h2>{{form.errors}}</h2>
+            </div>
 
         </form>
     </div>
 
-    <div>
-        <h2>{{form.username.help_text}}</h2>
-    </div>
+
 
 </body>
 {% endblock %}
