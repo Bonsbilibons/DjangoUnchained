@@ -9,6 +9,23 @@
 
 <body>
 
+    <div class="header">
+        <div class="search">
+    		<a>Що бажаєте знайти ?</a>
+        </div>
+        <button class="btn right-left">Register</button>
+        <button class="btn secondary right-right">Log in</button>
+    </div>
+
+
+
+    {% if user.is_authenticated %}
+    <h3>{{ user }}</h3>
+    <h3> User is authenticated</h3>
+    {% else  %}
+    <h3> User is not authenticated</h3>
+    {% endif %}
+
 
 
 
