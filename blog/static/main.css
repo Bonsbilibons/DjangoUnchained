@@ -38,8 +38,11 @@
 .header {
     background-color: white;
     height: 15%;
-    margin: 0;
-    position: relative;
+    margin: 10px;
+    position: fixed;
+    top: 3%;
+    left: 0;
+    right: 0;
 }
 
 :root {
@@ -97,9 +100,9 @@
     padding: 15px;
     border: 15px;
     position: fixed;
-    top: 100px;
-    left: 10%;
-    right: 10%;
+    top: 25%;
+    left: 20%;
+    right: 20%;
     bottom: 0;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
