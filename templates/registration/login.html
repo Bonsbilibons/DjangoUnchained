@@ -4,21 +4,41 @@
 
 {% block content %}
 
+<div class="user_creation_frame ">
+    <form action="{% url 'login'%}" method="post">
+        {% csrf_token %}
 
-<h2>Login</h2>
-<hr>
-
-        {% if form.errors %}
-<p>{{form.errors.error}}</p>
+        {% if form.errors.username %}
+        <div class="input_form_error">
+            <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
+        </div>
+        {% else %}
+        <div class="input_form">
+            <input type="text" placeholder="{{form.username.label}}" name="username" /><br>
+        </div>
         {% endif %}
 
-<form action="{% url 'login' %}" method="post">
-    {{form}}
-    {% csrf_token %}
-    <button type="submit">submit</button>
-</form>
+        {% if form.errors.password %}
+        <div class="input_form_error">
+            <input type="password" placeholder="{{form.password.label}}" name="password" /><br>
+        </div>
+        {% else %}
+        <div class="input_form">
+            <input type="password" placeholder="{{form.password.label}}" name="password" /><br>
+        </div>
+        {% endif %}
 
-<a href="{% url 'password_reset' %}">Forgot password?</a>
+        <button class="btn secondary center" type="submit">submit</button>
+
+        <div class="creation_errors">
+            <h2>{{form.errors}}</h2>
+        </div>
+
+        <a href="{% url 'password_reset' %}"><button class="btn right-left primary">Forgot password?</button></a>
+
+    </form>
+</div>
+
 
 
 {% endblock %}
