@@ -7,13 +7,13 @@ from blog.models import User
 
 class Login(View):
     template_name = 'registration/login.html' 
-    def get(self , request):
+    def get(self, request):
         context = {
              'form' : AuthenticationForm()
              }
-        return render(request , self.template_name , context)
+        return render(request, self.template_name, context)
 
-    def post(self , request ):
+    def post(self, request):
         form = AuthenticationForm(request.POST)
         if form.is_valid():
             form.save()

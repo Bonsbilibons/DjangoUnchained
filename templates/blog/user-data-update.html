@@ -1,0 +1,44 @@
+{% extends 'blog/main.html'%}
+
+{% block title %}Update your data{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<body>
+
+    <div class="user_information_for_update">
+        {% if user.icon == "" %}
+            <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
+        {% else %}
+            <img src="{% static '/upload/{{user.icon}}' %}" class="user_icon_info_page" />
+        {% endif %}
+    <br>
+    <br>
+    <div class="btn_invisible">
+        <input type="file"
+              name="icon"
+              accept="image/png, image/jpeg"/>
+    </div>
+    <br>
+    <br>
+    <div class="input_form">
+                <input type="text" placeholder="{{user.username}}" name="username" /><br>
+    </div>
+    <div class="input_form">
+                <input type="text" placeholder="{{user.first_name}}" name="first_name" /><br>
+    </div>
+    <div class="input_form">
+                <input type="text" placeholder="{{user.last_name}}" name="last_name" /><br>
+    </div>
+
+    <textarea placeholder="Here must be your bio" name="biography" class="input_biography">{{user_data.biography}}</textarea>
+
+
+    </div>
+
+
+
+</body>
+{% endblock %}

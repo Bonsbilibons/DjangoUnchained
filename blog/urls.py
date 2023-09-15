@@ -10,5 +10,7 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login' ),
     path('account/' , include('django.contrib.auth.urls')),
     path('redirect-to-mail-to-confirm-email/', views.redirect_to_mail_to_confirm_email, name='redirect_to_mail_to_confirm_email'),
-    path('confirmation-of-email-for-registration/<id>', views.confirmation_of_email_for_registration, name='confirmation_of_email_for_registration')
+    path('confirmation-of-email-for-registration/<id>', views.confirmation_of_email_for_registration, name='confirmation_of_email_for_registration'),
+    path('user-information/<id>', views.user_information, name='user-information'),
+    path('user-information/<id>/update', views.user_information_update, name='user-information-update')
 ]

@@ -1,0 +1,54 @@
+﻿{% extends 'blog/main.html'%}
+
+{% block title %}User information{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<body>
+
+    <form action="{% url 'user-information-update' id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if user.username == id %}
+
+    <div class="user_username_information">
+        {% if user.icon == "" %}
+            <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
+        {% else %}
+            <img src="{% static '/upload/{{user.icon}}' %}" class="user_icon_info_page" />
+        {% endif %}
+        <h2>{{user.username}}</h2>
+    </div>
+
+    <div class="user_name_information">
+        <h2>{{user.first_name}}</h2>
+        <h2>{{user.last_name}}</h2>
+    </div>
+
+    <div class="bio">
+        <h2></h2>
+    </div>
+
+    <div class="targets">
+        <h2></h2>
+    </div>
+
+    <div class="new_post">
+        <h2></h2>
+    </div>
+
+    <div class="switch_to_change_information_about_user">
+        <button type="submit" class="btn_invisible">Change information</button>
+    </div>
+
+    </form>
+
+    {% else %}
+
+    {% endif %}
+
+
+</body>
+{% endblock %}
