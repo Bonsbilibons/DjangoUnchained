@@ -17,7 +17,7 @@
         {% if user.icon == "" %}
             <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
         {% else %}
-            <img src="{% static '/upload/{{user.icon}}' %}" class="user_icon_info_page" />
+            <img src="{% static 'upload/'%}{{user.icon}}" class="user_icon_info_page" />
         {% endif %}
         <h2>{{user.username}}</h2>
     </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="bio">
-        <h2></h2>
+        <h2>{{user_data.biography}}</h2>
     </div>
 
     <div class="targets">

@@ -330,3 +330,13 @@
     resize: none;
     font-size: 14px;
 }
+
+.input_targets{
+    width: 500px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+    font-size: 14px;
+}

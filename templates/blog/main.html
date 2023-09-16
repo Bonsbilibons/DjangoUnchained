@@ -21,7 +21,7 @@
         </a>
         {% else %}
         <a href="{% url 'user-information' user.username %}">
-            <img src="{% static '/upload/{{user.icon}}' %}" class="user_icon_main_page" />
+            <img src="{% static 'upload/'%}{{user.icon}}" class="user_icon_main_page" />
         </a>
         {% endif %}
         {% else  %}

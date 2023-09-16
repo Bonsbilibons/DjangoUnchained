@@ -8,6 +8,9 @@
 
 <body>
 
+    <form action="{% url 'user-information-save' user.username %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
     <div class="user_information_for_update">
         {% if user.icon == "" %}
             <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
@@ -34,10 +37,15 @@
     </div>
 
     <textarea placeholder="Here must be your bio" name="biography" class="input_biography">{{user_data.biography}}</textarea>
-
+    <br>
+    <br>
+    <textarea placeholder="Here must be your targets" name="targets" class="input_targets">{{user_data.targets}}</textarea>
 
     </div>
 
+        <button type="submit">save changes</button>
+
+    </form>
 
 
 </body>
