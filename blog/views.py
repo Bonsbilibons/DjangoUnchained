@@ -16,7 +16,8 @@ def confirmation_of_email_for_registration(request, id):
     return render(request, 'registration/confirmation_of_email.html')
 
 def user_information(request, id):
-    return render(request, 'blog/user-information.html', {'id': id})
+    user = UserInfoService()
+    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(request.user.id)})
 
 def user_information_update(request, id):
     user = UserInfoService()
@@ -33,4 +34,4 @@ def user_information_save(request, id):
         request.POST['targets'],
     )
     user.update_data(id, update_user_data_dto)
-    return redirect('/blog/main')
+    return redirect('/blog/user-information/'+ id)
