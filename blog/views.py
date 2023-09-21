@@ -2,8 +2,10 @@ from django.shortcuts import render,redirect
 
 from .servises.Confirmation_of_email import confirmation
 from .servises.UserInfoService import UserInfoService
+from .servises.PostsService import PostService
 
 from .DTO.User.UpdateUserDataDTO import UpdateUserDataDTO
+from .DTO.Posts.CreatePostDTO import CreatePostDTO
 
 def main_page(request):
     return render(request, 'blog/front_page.html')
@@ -34,4 +36,15 @@ def user_information_save(request, id):
         request.POST['targets'],
     )
     user.update_data(id, update_user_data_dto)
+    return redirect('/blog/user-information/'+ id)
+
+def create_post(request, id):
+    post = PostService()
+    create_post_dto = CreatePostDTO(
+        request.POST['title'],
+        request.POST['description'],
+        request.FILES.getlist('images'),
+        id
+    )
+    post.create_post(create_post_dto)
     return redirect('/blog/user-information/'+ id)

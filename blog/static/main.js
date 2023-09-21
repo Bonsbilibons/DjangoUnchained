@@ -15,6 +15,10 @@ var counter = 0;
 var filesInput = document.getElementById('files-input');
 var mainImageForPost = document.getElementById('main-for-post');
 
+function deleteImage(id , array) {
+    array.splice(id , 1);
+}
+
 if(bio_area) {
     bio_area.addEventListener('input', function() {
     var text = this.value;
@@ -63,11 +67,6 @@ function showFormForPost() {
     }
 }
 
-function hideFormForPost() {
-    var postForm = document.getElementById('postForm');
-    postForm.style.display = 'none';
-}
-
 document.getElementById('files-input').addEventListener('change', function () {
 
     var files = this.files;
@@ -85,21 +84,53 @@ document.getElementById('files-input').addEventListener('change', function () {
 
 if(filesInput) {
     filesInput.addEventListener('change', function() {
+    updateImageContainer();
     var imageContainer = document.getElementById('all-images-for-post');
 
     while(counter != selectedFiles.length) {
+        console.log(selectedFiles)
         if(counter == 0){
             var img = document.getElementById('main-for-post');
             img.src = URL.createObjectURL(selectedFiles[counter]);
+            img.id = counter;
+            img.addEventListener('click', function () {
+                    deleteImage(this.id, selectedFiles);
+                    updateImageContainer();
+                });
         }
         else {
             var img = document.createElement('img');
             img.src = URL.createObjectURL(selectedFiles[counter]);
             img.classList.add('images_for_post');
             img.classList.add('center_horizont');
+            img.id = counter;
             imageContainer.appendChild(img);
+            img.addEventListener('click', function () {
+                    deleteImage(this.id, selectedFiles);
+                    updateImageContainer();
+                });
         }
         counter++;
     }
 });
+}
+
+function updateImageContainer() {
+    var imageContainer = document.getElementById('all-images-for-post');
+    imageContainer.innerHTML = '';
+
+    for (var i = 0; i < selectedFiles.length; i++) {
+        var img = document.createElement('img');
+        img.src = URL.createObjectURL(selectedFiles[i]);
+        img.classList.add('images_for_post');
+        img.classList.add('center_horizont');
+        img.id = i;
+
+        img.addEventListener('click', function () {
+            deleteImage(this.id, selectedFiles);
+            updateImageContainer();
+        });
+
+        imageContainer.appendChild(img);
+    }
 }
