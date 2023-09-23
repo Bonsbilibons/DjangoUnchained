@@ -48,10 +48,12 @@
            accept="image/png, image/jpeg" multiple class="center_horizont"/>
         <br>
         <br>
-        <input type="text" placeholder="Title" maxlength="100" name="title" class="input_title center_horizont">
+        <input type="text" placeholder="Title" maxlength="100" id="title_area" name="title" class="input_title center_horizont">
+        <div id="title_count">0 / 100 symbols</div>
         <br>
         <br>
-        <textarea placeholder="Description" maxlength="800" name="description" class="input_description center_horizont"></textarea>
+        <textarea placeholder="Description" maxlength="1000" id="description_area" name="description" class="input_description center_horizont"></textarea>
+        <div id="description_count" class="center_horizont">0 / 1000 symbols</div>
         <br>
         <br>
         <button class="btn_invisible center_horizont" type="submit">Create post </button>
@@ -65,6 +67,17 @@
         <button type="submit" class="btn_invisible">Change information</button>
     </div>
     </form>
+
+    <div class="user_posts_container">
+        {% for post in posts %}
+            <div class="user_post">
+                <h2>{{post.title}}</h2>
+                <h2>{{post.description}}</h2>
+            {{ post.images }}
+            </div>
+        {% endfor %}
+    </div>
+
 
     {% else %}
 

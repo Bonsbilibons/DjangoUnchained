@@ -4,6 +4,12 @@ var bio_count = document.getElementById('bio_count');
 var targets_area = document.getElementById('targets_area');
 var targets_count = document.getElementById('targets_count');
 
+var description_area = document.getElementById('description_area');
+var description_count = document.getElementById('description_count');
+
+var title_area = document.getElementById('title_area');
+var title_count = document.getElementById('title_count');
+
 var fileInput = document.getElementById('file-input');
 var imagePreview = document.getElementById('image-preview');
 
@@ -29,13 +35,33 @@ if(bio_area) {
 });
 }
 
-if(targets_area) {
-    targets_area.addEventListener('input', function() {
+if(description_area) {
+    description_area.addEventListener('input', function() {
     var text = this.value;
     var maxLength = this.maxLength;
     var currentLength = text.length;
 
-    targets_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
+    description_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
+});
+}
+
+if(title_area) {
+    title_area.addEventListener('input', function() {
+    var text = this.value;
+    var maxLength = this.maxLength;
+    var currentLength = text.length;
+
+    title_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
+});
+}
+
+if(bio_area) {
+    bio_area.addEventListener('input', function() {
+    var text = this.value;
+    var maxLength = this.maxLength;
+    var currentLength = text.length;
+
+    bio_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
 });
 }
 

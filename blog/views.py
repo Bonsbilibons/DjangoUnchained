@@ -19,7 +19,8 @@ def confirmation_of_email_for_registration(request, id):
 
 def user_information(request, id):
     user = UserInfoService()
-    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(request.user.id)})
+    post = PostService()
+    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(id), 'posts': post.get_posts_by_username(id)})
 
 def user_information_update(request, id):
     user = UserInfoService()

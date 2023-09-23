@@ -7,8 +7,12 @@ class UserInfoService():
     def get_all_data(self):
         return User_Info.objects.all()
 
-    def get_data_by_username(self, user_id):
+    def get_data_by_user_id(self, user_id):
         user_info = User_Info.objects.get(user = user_id)
+        return user_info
+    def get_data_by_username(self, username):
+        user = User.objects.get(username=username)
+        user_info = User_Info.objects.get(user = user.id)
         return user_info
 
     def update_data(self, id, dto: UpdateUserDataDTO):

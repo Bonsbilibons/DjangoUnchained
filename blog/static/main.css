@@ -399,3 +399,21 @@
 .images_for_post:hover{
     filter: brightness(0.8);
 }
+
+.user_posts_container{
+    margin-top: 715px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+}
+
+.user_post{
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    width: 1145px;
+    height: 400px;
+}
