@@ -7,6 +7,9 @@ from .servises.PostsService import PostService
 from .DTO.User.UpdateUserDataDTO import UpdateUserDataDTO
 from .DTO.Posts.CreatePostDTO import CreatePostDTO
 
+import json
+
+
 def main_page(request):
     return render(request, 'blog/front_page.html')
 
@@ -19,12 +22,12 @@ def confirmation_of_email_for_registration(request, id):
 
 def user_information(request, id):
     user = UserInfoService()
-    post = PostService()
-    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(id), 'posts': post.get_posts_by_username(id)})
+    posts = PostService()
+    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(id), 'posts': posts.get_posts_by_username(id)})
 
 def user_information_update(request, id):
     user = UserInfoService()
-    return render(request, 'blog/user-data-update.html', {'user_data': user.get_data_by_username(request.user.id)})
+    return render(request, 'blog/user-data-update.html', {'user_data': user.get_data_by_username(id)})
 
 def user_information_save(request, id):
     user = UserInfoService()

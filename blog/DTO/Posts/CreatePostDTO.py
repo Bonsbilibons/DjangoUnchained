@@ -5,7 +5,7 @@ import datetime
 class CreatePostDTO:
     title: str
     description: str
-    images: str
+    images: list
     user: str
     updated_at = str(datetime.datetime.now()).split('.')[0]
     created_at = str(datetime.datetime.now()).split('.')[0]

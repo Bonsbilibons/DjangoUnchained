@@ -73,7 +73,10 @@
             <div class="user_post">
                 <h2>{{post.title}}</h2>
                 <h2>{{post.description}}</h2>
-            {{ post.images }}
+                {% for image in post.images %}
+                    <img src="{% static '/upload/posts/'%}{{post.id}}/{{ image.name }}" class="images_for_post center_horizont"/>
+                    <br>
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

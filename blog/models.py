@@ -19,9 +19,14 @@ class User_Info(models.Model):
 class Posts(models.Model):
     title = models.CharField("title", max_length=100)
     description = models.CharField("description", max_length=2000)
-    images = models.CharField("images", max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     updated_at = models.DateTimeField("updated_at")
     created_at = models.DateTimeField("created_at")
     class Meta:
         db_table = 'posts'
+
+class Posts_Images(models.Model):
+    name = models.CharField("title", max_length=100)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'Posts_Images'
