@@ -30,3 +30,9 @@ class Posts_Images(models.Model):
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Posts_Images'
+
+class Posts_Likes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'Posts_Likes'

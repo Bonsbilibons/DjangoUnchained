@@ -18,10 +18,10 @@ def save_uploaded_files(posts_images, post):
             for chunk in image.chunks():
                 destination.write(chunk)
 
-def handle_uploaded_file(f):
+def handle_uploaded_file(f, path):
     _, extension = os.path.splitext(f.name)
     name = str(uuid.uuid4()) + extension
-    with open(settings.MEDIA_ROOT + "posts/" + name, 'wb+') as destination:
+    with open(settings.MEDIA_ROOT + f"{path}/" + name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     return name

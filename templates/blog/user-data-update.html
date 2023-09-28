@@ -16,7 +16,7 @@
         {% if user.icon == "" %}
             <img id="image-preview" src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
         {% else %}
-            <img id="image-preview" src="{% static 'upload/'%}{{user.icon}}" class="user_icon_info_page" />
+            <img id="image-preview" src="{% static 'upload/user_icon/'%}{{user.icon}}" class="user_icon_info_page" />
         {% endif %}
 
     <br>
@@ -42,13 +42,13 @@
                 <input type="text" value="{{user.last_name}}" name="last_name" /><br>
     </div>
 
-    <textarea placeholder="Here must be your bio" id="bio_area" maxlength="800" name="biography" class="input_biography">{{user_data.biography}}</textarea>
+    <textarea placeholder="Here must be your bio" id="bio_area" maxlength="800" name="biography" class="input_biography">{{user_data.0.biography}}</textarea>
     <div id="bio_count">0 / 800 symbols</div>
 
         <br>
         <br>
 
-    <textarea placeholder="Here must be your targets" id="targets_area" maxlength="200" name="targets" class="input_targets">{{user_data.targets}}</textarea>
+    <textarea placeholder="Here must be your targets" id="targets_area" maxlength="200" name="targets" class="input_targets">{{user_data.0.targets}}</textarea>
     <div id="targets_count">0 / 800 symbols</div>
 
         <br>

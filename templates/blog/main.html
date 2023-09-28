@@ -5,6 +5,34 @@
     <title>{% block title %}Main page{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main.css' %}">
+
+    <style type="text/css">
+            * {
+                font-family: sans-serif;
+            }
+            .alert-common {
+                width: 300px;
+                padding: 20px;
+                position: fixed;
+                z-index: 900000;
+                top: 30px;
+                right: 30px;
+                background-color: #eee;
+                display: none;
+                opacity: .8;
+
+            }
+            .alert-common:hover {
+                opacity: 1;
+            }
+            .alert-close {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                color: red;
+                cursor: pointer;
+            }
+        </style>
 </head>
 
 <body>
@@ -21,7 +49,7 @@
         </a>
         {% else %}
         <a href="{% url 'user-information' user.username %}">
-            <img src="{% static 'upload/'%}{{user.icon}}" class="user_icon_main_page" />
+            <img src="{% static 'upload/user_icon/'%}{{user.icon}}" class="user_icon_main_page" />
         </a>
         {% endif %}
         {% else  %}
@@ -30,8 +58,80 @@
         {% endif %}
     </div>
 
+    <div class="alert-common" id="alert">
+		<div class="alert-close">X</div>
+		<div class="alert-message"></div>
+	</div>
+
     {% block content %}{% endblock %}
 
-    <script src="{% static 'main.js' %}"></script>
+<script src="{% static 'main.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    $( ".like_button" ).on( "click", function() {
+        $.ajax({
+            url : "{% url 'like_post' %}",
+            headers: {'X-CSRFToken': csrftoken},
+            type: "POST",
+            data : {
+                post_id: $(this).attr("data-id"),
+                data_user_id : $(this).attr("data-user-id")
+            },
+            success: function(data, textStatus, jqXHR)
+            {
+                console.log(data)
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+
+            }
+        });
+    } );
+	const socket = io('http://localhost:3003',  { transports : ['websocket'] });
+
+	socket.on("connect", () => {
+	  console.log('connecned successfully!');
+	});
+
+	socket.on('client{{ user.id }}', function(data) {
+		console.log('message from server: ', data);
+		showAlert(data.message);
+        {#socket.emit('answer', 'message from client');#}
+    });
+	socket.on('error', console.error.bind(console));
+
+
+	function showAlert(message) {
+		console.log(message);
+		$('#alert .alert-message').html(message);
+		$('#alert').fadeIn();
+		setTimeout(function () {
+            $('#alert').fadeOut();
+        }, 5000)
+
+	}
+
+	$(document).on('click', '.alert-close', function() {
+		$('#alert').fadeOut();
+	})
+</script>
 </body>
 </html>

@@ -14,5 +14,6 @@ urlpatterns = [
     path('user-information/<id>', views.user_information, name='user-information'),
     path('user-information/<id>/update', views.user_information_update, name='user-information-update'),
     path('user-information/<id>/update/save', views.user_information_save, name='user-information-save'),
-    path('user-information/<id>/create-post', views.create_post, name='create_post')
+    path('user-information/<id>/create-post', views.create_post, name='create_post'),
+    path('like_post', views.like_post, name='like_post')
 ]

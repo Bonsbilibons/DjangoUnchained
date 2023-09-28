@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
+import http.client, urllib.parse
 
 from .servises.Confirmation_of_email import confirmation
 from .servises.UserInfoService import UserInfoService
@@ -52,3 +54,23 @@ def create_post(request, id):
     )
     post.create_post(create_post_dto)
     return redirect('/blog/user-information/'+ id)
+
+def like_post(request):
+    post = PostService()
+    user = UserInfoService()
+    like_post = PostService()
+    like_post.like_post(user.get_user_by_id(request.user.id), post.get_post_by_post_id(request.POST['post_id']))
+
+    conn = http.client.HTTPConnection('127.0.0.1:3003')
+    params = {
+        'user_id': request.user.id,
+        'username': request.user.username,
+        'post_id': request.POST['post_id'],
+        'data_user_id': request.POST['data_user_id']
+    }
+    headers = {"Accept": "application/json", "Content-Type": "application/json"}
+    conn.request('POST', '/like_post', json.dumps(params), headers)
+
+    return JsonResponse({
+        'status': True
+    })
