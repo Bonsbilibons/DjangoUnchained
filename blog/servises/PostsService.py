@@ -67,7 +67,7 @@ class PostService():
         save_uploaded_files(dto.images, post)
 
     def like_post(self, user: User(), post: Posts()):
-        if(Posts_Likes.objects.filter(user=user.id, post=post.id).exists()):
+        if Posts_Likes.objects.filter(user=user.id, post=post.id).exists():
             like = Posts_Likes.objects.get(user=user.id, post=post.id)
             like.delete()
             return False
@@ -77,8 +77,9 @@ class PostService():
             like.post = post
             like.save()
             return True
+
     def is_post_liked(self, post_id , user_id):
-        if(Posts_Likes.objects.filter(user=user_id, post=post_id).exists()):
+        if Posts_Likes.objects.filter(user=user_id, post=post_id).exists():
             return True
         else:
             return False

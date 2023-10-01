@@ -37,6 +37,16 @@ if(bio_area) {
 });
 }
 
+if(targets_area) {
+    targets_area.addEventListener('input', function() {
+    var text = this.value;
+    var maxLength = this.maxLength;
+    var currentLength = text.length;
+
+    targets_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
+});
+}
+
 if(description_area) {
     description_area.addEventListener('input', function() {
     var text = this.value;
@@ -54,16 +64,6 @@ if(title_area) {
     var currentLength = text.length;
 
     title_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
-});
-}
-
-if(bio_area) {
-    bio_area.addEventListener('input', function() {
-    var text = this.value;
-    var maxLength = this.maxLength;
-    var currentLength = text.length;
-
-    bio_count.textContent = currentLength + ' / ' + maxLength + ' symbols';
 });
 }
 

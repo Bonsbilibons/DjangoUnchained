@@ -1,0 +1,30 @@
+{% extends 'blog/main.html'%}
+
+{% block title %}Front Page{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<body>
+
+    <div class="search_container">
+        {% for result in results %}
+            <div class="search_result">
+                <a href="{% url 'user-information' result.username %}">
+                    {% if result.icon == "" %}
+                        <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
+                    {% else %}
+                        <img src="{% static 'upload/user_icon/'%}{{result.icon}}" class="user_icon_info_page" />
+                    {% endif %}
+                </a>
+                <h2>{{ result }}</h2>
+                <h2>{{ result.first_name }}</h2>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+</body>
+{% endblock %}

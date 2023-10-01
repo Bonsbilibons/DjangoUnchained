@@ -38,9 +38,13 @@
 <body>
 
     <div class="header">
-        <div class="search">
-            <a>Що бажаєте знайти ?</a>
-        </div>
+        <form action="{% url 'main-search' %}">
+            {% csrf_token %}
+            <div class="search">
+                <input type="text" placeholder="What do you want to find?" name="search" /><br>
+            </div>
+        </form>
+
         {% if user.is_authenticated %}
         <a href="{% url 'logout' %}"><button class="btn right-left primary">Logout</button></a>
         {% if user.icon == "" %}

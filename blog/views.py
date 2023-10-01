@@ -5,6 +5,7 @@ import http.client, urllib.parse
 from .servises.Confirmation_of_email import confirmation
 from .servises.UserInfoService import UserInfoService
 from .servises.PostsService import PostService
+from .servises.SearchService import SearchService
 
 from .DTO.User.UpdateUserDataDTO import UpdateUserDataDTO
 from .DTO.Posts.CreatePostDTO import CreatePostDTO
@@ -82,3 +83,8 @@ def is_post_liked(request):
     return JsonResponse({
         'status': status
     })
+
+def main_search(request):
+    search_request = request.GET.get('search')
+    result = SearchService()
+    return render(request, 'blog/main-search.html', {'results': result.search_by_username(search_request)})
