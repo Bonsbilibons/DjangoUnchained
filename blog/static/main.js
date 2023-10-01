@@ -1,3 +1,5 @@
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+
 var bio_area = document.getElementById('bio_area');
 var bio_count = document.getElementById('bio_count');
 
@@ -159,4 +161,21 @@ function updateImageContainer() {
 
         imageContainer.appendChild(img);
     }
+}
+
+function IsPostLiked(post_id, callback) {
+    $.ajax({
+        url: "/blog/is_post_liked",
+        headers: { 'X-CSRFToken': csrftoken },
+        type: "POST",
+        data: {
+            post_id: post_id
+        },
+        success: function (data, textStatus, jqXHR) {
+            callback(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+        }
+    });
 }

@@ -435,6 +435,11 @@
     background-color: #0e7c0e;
 }
 
+.like_button.liked {
+    background-color: black;
+    color: white;
+}
+
 .likes_for_posts{
     position: absolute;
     transform: translateY(-225%);

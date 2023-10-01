@@ -27,11 +27,14 @@ def disconnect(sid):
 @app.post("/like_post")
 async def like_post(data=Body()):
     print(data)
-    user_id = data["data_user_id"]
+    user_id = data["user_id"]
+    data_user_id = data["data_user_id"]
     post_id = data["post_id"]
     username = data["username"]
-    await sio.emit(f'client{user_id}', {'message': f'<a href="http://127.0.0.1:8000/blog/user-information/{username}">{username}</a> liked your post <a href="http://127.0.0.1:8000/blog/user-information/{username}">{post_id}</a>'})
-    return {"Hello": "World"}
+    is_liked = data["is_liked"]
+    if(int(user_id) != int(data_user_id)):
+        await sio.emit(f'client{data_user_id}', {'message': f'<a href="http://127.0.0.1:8000/blog/user-information/{username}">{username}</a> liked your post <a href="http://127.0.0.1:8000/blog/user-information/{username}">{post_id}</a>', 'post_id': post_id, 'username': username, 'is_liked': is_liked})
+        return {"Hello": "World"}
 
 if __name__ == '__main__':
     uvicorn.run(app_socket, port=3003, host='localhost')

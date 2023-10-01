@@ -25,7 +25,7 @@ def confirmation_of_email_for_registration(request, id):
 def user_information(request, id):
     user = UserInfoService()
     posts = PostService()
-    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(id), 'posts': posts.get_posts_by_username(id)})
+    return render(request, 'blog/user-information.html', {'id': id, 'user_data': user.get_data_by_username(id), 'posts': reversed(posts.get_posts_by_username(id))})
 
 def user_information_update(request, id):
     user = UserInfoService()
@@ -59,18 +59,26 @@ def like_post(request):
     post = PostService()
     user = UserInfoService()
     like_post = PostService()
-    like_post.like_post(user.get_user_by_id(request.user.id), post.get_post_by_post_id(request.POST['post_id']))
+    is_liked = like_post.like_post(user.get_user_by_id(request.user.id), post.get_post_by_post_id(request.POST['post_id']))
 
     conn = http.client.HTTPConnection('127.0.0.1:3003')
     params = {
         'user_id': request.user.id,
         'username': request.user.username,
         'post_id': request.POST['post_id'],
-        'data_user_id': request.POST['data_user_id']
+        'data_user_id': request.POST['data_user_id'],
+        'is_liked': is_liked
     }
     headers = {"Accept": "application/json", "Content-Type": "application/json"}
     conn.request('POST', '/like_post', json.dumps(params), headers)
 
     return JsonResponse({
         'status': True
+    })
+
+def is_post_liked(request):
+    is_liked = PostService()
+    status = is_liked.is_post_liked(request.POST['post_id'], request.user.id)
+    return JsonResponse({
+        'status': status
     })

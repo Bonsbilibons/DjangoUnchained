@@ -87,35 +87,61 @@
     const csrftoken = getCookie('csrftoken');
 
     $( ".like_button" ).on( "click", function() {
-        $.ajax({
-            url : "{% url 'like_post' %}",
-            headers: {'X-CSRFToken': csrftoken},
-            type: "POST",
-            data : {
-                post_id: $(this).attr("data-id"),
-                data_user_id : $(this).attr("data-user-id")
-            },
-            success: function(data, textStatus, jqXHR)
-            {
-                console.log(data)
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
 
-            }
-        });
+        var targetElement = $(".likes_for_posts[data-id='" + $(this).attr("data-id") + "']");
+        var currentValue = parseInt(targetElement.text());
+
+        if ($(this).hasClass("liked")) {
+            $(this).text("Like");
+            targetElement.text(currentValue - 1);
+
+        } else {
+            targetElement.text(currentValue + 1);
+            $(this).text("Liked");
+
+        }
+        $(this).toggleClass('liked');
+
+        $.ajax({
+                url : "{% url 'like_post' %}",
+                headers: {'X-CSRFToken': csrftoken},
+                type: "POST",
+                data : {
+                    post_id: $(this).attr("data-id"),
+                    data_user_id : $(this).attr("data-user-id")
+                },
+                success: function(data, textStatus, jqXHR)
+                {
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+
+                }
+            });
     } );
 	const socket = io('http://localhost:3003',  { transports : ['websocket'] });
 
 	socket.on("connect", () => {
-	  console.log('connecned successfully!');
+	  console.log('connected successfully!');
 	});
 
 	socket.on('client{{ user.id }}', function(data) {
-		console.log('message from server: ', data);
-		showAlert(data.message);
+        console.log('message from server: ', data);
+        var targetElement = $(".likes_for_posts[data-id='" + data.post_id + "']");
+        var currentValue = parseInt(targetElement.text());
+        if(data.is_liked){
+            targetElement.text(currentValue + 1);
+            showAlert(data.message);
+        } else {
+            targetElement.text(currentValue - 1);
+        }
+
+
+
         {#socket.emit('answer', 'message from client');#}
     });
+
 	socket.on('error', console.error.bind(console));
 
 
@@ -132,6 +158,21 @@
 	$(document).on('click', '.alert-close', function() {
 		$('#alert').fadeOut();
 	})
+
+     $(document).ready(function() {
+         $('.like_button').each(function() {
+             var this_post = $(this);
+             var dataId = $(this).attr("data-id");
+             IsPostLiked(dataId, function (data) {
+                 console.log(data.status)
+                 if(data.status){
+                     this_post.addClass('liked');
+                     this_post.text('Liked');
+                 }
+             });
+         });
+     });
+
 </script>
 </body>
 </html>

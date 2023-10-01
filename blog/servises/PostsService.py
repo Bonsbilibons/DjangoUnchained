@@ -70,8 +70,15 @@ class PostService():
         if(Posts_Likes.objects.filter(user=user.id, post=post.id).exists()):
             like = Posts_Likes.objects.get(user=user.id, post=post.id)
             like.delete()
+            return False
         else:
             like = Posts_Likes()
             like.user = user
             like.post = post
             like.save()
+            return True
+    def is_post_liked(self, post_id , user_id):
+        if(Posts_Likes.objects.filter(user=user_id, post=post_id).exists()):
+            return True
+        else:
+            return False
