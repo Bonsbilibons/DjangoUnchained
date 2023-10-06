@@ -1,5 +1,6 @@
 from blog.models import User_Info
 from blog.models import User
+from blog.models import User_Follows
 from blog.DTO.User import UpdateUserDataDTO
 from blog.functions.functions import handle_uploaded_file
 
@@ -19,10 +20,9 @@ class UserInfoService():
 
     def get_data_by_username(self, username):
         user = User.objects.get(username=username)
-        user_array = []
         if(User_Info.objects.filter(user = user.id).exists()):
             user_info = User_Info.objects.get(user = user.id)
-            user_array.append(
+            user_array = (
                 {
                 'id': user.id,
                 'username': user.username,
@@ -30,16 +30,17 @@ class UserInfoService():
                 'last_name': user.last_name,
                 'is_staff': user.is_staff,
                 'is_active': user.is_active,
-                'date_joined': user.date_joined,
+                'date_joined': str(user.date_joined),
                 'email': user.email,
                 'icon': user.icon,
-                'updated_at': user.updated_at,
+                'updated_at': str(user.updated_at),
                 'biography': user_info.biography,
-                'targets': user_info.targets
+                'targets': user_info.targets,
+                'followers': User_Follows.objects.filter(author=user.id).count()
                 }
             )
         else:
-            user_array.append(
+            user_array = (
                 {
                     'id': user.id,
                     'username': user.username,
@@ -47,12 +48,13 @@ class UserInfoService():
                     'last_name': user.last_name,
                     'is_staff': user.is_staff,
                     'is_active': user.is_active,
-                    'date_joined': user.date_joined,
+                    'date_joined': str(user.date_joined),
                     'email': user.email,
                     'icon': user.icon,
-                    'updated_at': user.updated_at,
+                    'updated_at': str(user.updated_at),
                     'biography': "",
-                    'targets': ""
+                    'targets': "",
+                    'followers': User_Follows.objects.filter(author=user.id).count()
                 }
             )
         return user_array
@@ -85,3 +87,21 @@ class UserInfoService():
                 user_info.targets = dto.targets
             user_info.user = user
             user_info.save()
+
+    def follow(self, author: User(), follower: User()):
+        if User_Follows.objects.filter(author=author.id,follower=follower.id):
+            follow = User_Follows.objects.get(author=author.id,follower=follower.id)
+            follow.delete()
+            return False
+        else:
+            follow = User_Follows()
+            follow.author = author
+            follow.follower = follower
+            follow.save()
+            return True
+
+    def is_followed(self, author, follower):
+        if User_Follows.objects.filter(author=author, follower=follower).exists():
+            return True
+        else:
+            return False

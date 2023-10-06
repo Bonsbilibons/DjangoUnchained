@@ -57,24 +57,27 @@ def create_post(request, id):
     return redirect('/blog/user-information/'+ id)
 
 def like_post(request):
-    post = PostService()
-    user = UserInfoService()
-    like_post = PostService()
-    is_liked = like_post.like_post(user.get_user_by_id(request.user.id), post.get_post_by_post_id(request.POST['post_id']))
+    post_service = PostService()
+    user_info_service = UserInfoService()
 
-    conn = http.client.HTTPConnection('127.0.0.1:3003')
-    params = {
-        'user_id': request.user.id,
-        'username': request.user.username,
-        'post_id': request.POST['post_id'],
-        'data_user_id': request.POST['data_user_id'],
-        'is_liked': is_liked
-    }
-    headers = {"Accept": "application/json", "Content-Type": "application/json"}
-    conn.request('POST', '/like_post', json.dumps(params), headers)
+    is_liked = post_service.like_post(
+        user_info_service.get_user_by_id(request.user.id),
+        post_service.get_post_by_post_id(request.POST['post_id'])
+    )
 
+    if int(request.user.id) != int(request.POST['data_user_id']):
+        conn = http.client.HTTPConnection('127.0.0.1:3003')
+        params = {
+            'user_id': request.user.id,
+            'username': request.user.username,
+            'post_id': request.POST['post_id'],
+            'data_user_id': request.POST['data_user_id'],
+            'is_liked': is_liked
+        }
+        headers = {"Accept": "application/json", "Content-Type": "application/json"}
+        conn.request('POST', '/like_post', json.dumps(params), headers)
     return JsonResponse({
-        'status': True
+        'status': is_liked
     })
 
 def is_post_liked(request):
@@ -85,6 +88,38 @@ def is_post_liked(request):
     })
 
 def main_search(request):
-    search_request = request.GET.get('search')
+    search_request = request.POST['search']
     result = SearchService()
     return render(request, 'blog/main-search.html', {'results': result.search_by_username(search_request)})
+
+def follow_on_user(request):
+    follow = UserInfoService()
+    author = UserInfoService()
+    follower = UserInfoService()
+
+    status = follow.follow(author.get_user_by_id(request.POST['author_id']), follower.get_user_by_id(request.user.id))
+
+    if int(request.POST['author_id']) != int(request.user.id):
+        conn = http.client.HTTPConnection('127.0.0.1:3003')
+        params = {
+            'author_id': request.POST['author_id'],
+            'follower': request.user.username,
+            'follower_id': request.user.id,
+            'is_followed': status
+        }
+        headers = {"Accept": "application/json", "Content-Type": "application/json"}
+        conn.request('POST', '/follow_on_user', json.dumps(params), headers)
+
+    return JsonResponse({
+        'status': status
+    })
+
+def is_followed_on(request):
+    is_followed = UserInfoService()
+    status = is_followed.is_followed(
+        request.POST['author_id'],
+        request.POST['follower_id']
+    )
+    return JsonResponse({
+        'status': status
+    })

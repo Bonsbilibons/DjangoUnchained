@@ -9,41 +9,46 @@
 <body>
 
     <div class="user_username_information">
-        {% if user_data.0.icon == "" %}
+        {% if user_data.icon == "" %}
             <img src="{% static '/images/anonymous-user-icon-2.jpg' %}" class="user_icon_info_page" />
         {% else %}
-            <img src="{% static 'upload/user_icon/'%}{{user_data.0.icon}}" class="user_icon_info_page" />
+            <img src="{% static 'upload/user_icon/'%}{{user_data.icon}}" class="user_icon_info_page" />
         {% endif %}
-        <h2>{{user_data.0.username}}</h2>
+        <h2>{{user_data.username}}</h2>
     </div>
 
     <div class="user_name_information">
-        <h2>{{user_data.0.first_name}}</h2>
-        <h2>{{user_data.0.last_name}}</h2>
-        <h5>Last update: {{user_data.0.updated_at}}</h5>
+        <h2>{{user_data.first_name}}</h2>
+        <h2>{{user_data.last_name}}</h2>
+        <h5>Last update: {{user_data.updated_at}}</h5>
     </div>
 
     <div class="bio">
-        <h3>{{user_data.0.biography}}</h3>
+        <h3>{{user_data.biography}}</h3>
     </div>
 
     <div class="targets">
-        <h2>{{user_data.0.targets}}</h2>
+        <h2>{{user_data.targets}}</h2>
     </div>
 
+    <div class="user_statistic_container">
+        <h2>Followers: </h2>
+        <h2 class="followers_statistic" author_id={{ user_data.id }}>{{ user_data.followers }}</h2>
+    </div>
     <div class="user_posts_container">
         {% for post in posts %}
             <div class="user_post">
-                <h2>{{post.title}}</h2>
-                <h2>{{post.description}}</h2>
+                <h2 class="post_title">{{post.title}}</h2>
+                <h2 class="post_description">{{post.description}}</h2>
+            <div class="container_for_post_images">
                 {% for image in post.images %}
-                    <img src="{% static '/upload/posts/'%}{{post.id}}/{{ image.name }}" class="images_for_post center_horizont"/>
-                    <br>
+                    <img src="{% static '/upload/posts/'%}{{post.id}}/{{ image.name }}" class="images_for_post"/>
                 {% endfor %}
+            </div>
                 <div>
                     <h3 class="likes_for_posts" data-id="{{post.id}}">{{ post.likes }}</h3>
                     {% if user.is_authenticated %}
-                        <button type="button" class="like_button" data-id="{{post.id}}" data-user-id ="{{user_data.0.id}}">Like</button>
+                        <button type="button" class="like_button" data-id="{{post.id}}" data-user-id ="{{user_data.id}}">Like</button>
                     {% else %}
                         <a href="{% url 'login' %}"><button class="btn secondary">Log in</button></a>
                     {% endif %}
@@ -90,6 +95,10 @@
     </form>
 
     {% else %}
+
+        <div class="switch_to_change_information_about_user">
+            <button type="button" class="follow_button " follower_id="{{ user.id }}" author_id="{{ user_data.id }}"> Follow </button>
+        </div>
 
     {% endif %}
 

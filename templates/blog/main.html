@@ -38,7 +38,7 @@
 <body>
 
     <div class="header">
-        <form action="{% url 'main-search' %}">
+        <form action="{% url 'main-search' %}" method="POST">
             {% csrf_token %}
             <div class="search">
                 <input type="text" placeholder="What do you want to find?" name="search" /><br>
@@ -107,23 +107,58 @@
         $(this).toggleClass('liked');
 
         $.ajax({
-                url : "{% url 'like_post' %}",
-                headers: {'X-CSRFToken': csrftoken},
-                type: "POST",
-                data : {
-                    post_id: $(this).attr("data-id"),
-                    data_user_id : $(this).attr("data-user-id")
-                },
-                success: function(data, textStatus, jqXHR)
-                {
-                    console.log(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
+            url : "{% url 'like_post' %}",
+            headers: {'X-CSRFToken': csrftoken},
+            type: "POST",
+            data : {
+                post_id: $(this).attr("data-id"),
+                data_user_id : $(this).attr("data-user-id")
+            },
+            success: function(data, textStatus, jqXHR)
+            {
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
 
-                }
-            });
+            }
+        });
     } );
+
+    $( ".follow_button" ).on( "click", function() {
+
+        var targetElement = $(".followers_statistic");
+        var currentValue = parseInt(targetElement.text());
+
+        if ($(this).hasClass("followed")) {
+            $(this).text("Follow");
+            targetElement.text(currentValue - 1);
+
+        } else {
+            targetElement.text(currentValue + 1);
+            $(this).text("Followed");
+
+        }
+        $(this).toggleClass('followed');
+
+        $.ajax({
+            url : "{% url 'follow_on_user' %}",
+            headers: {'X-CSRFToken': csrftoken},
+            type: "POST",
+            data : {
+                author_id: $(this).attr("author_id"),
+            },
+            success: function(data, textStatus, jqXHR)
+            {
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+
+            }
+        });
+    } );
+
 	const socket = io('http://localhost:3003',  { transports : ['websocket'] });
 
 	socket.on("connect", () => {
@@ -132,14 +167,25 @@
 
 	socket.on('client{{ user.id }}', function(data) {
         console.log('message from server: ', data);
-        var targetElement = $(".likes_for_posts[data-id='" + data.post_id + "']");
-        var currentValue = parseInt(targetElement.text());
-        if(data.is_liked){
-            targetElement.text(currentValue + 1);
-            showAlert(data.message);
-        } else {
-            targetElement.text(currentValue - 1);
-        }
+        if(data.event == 'like') {
+            var targetElement = $(".likes_for_posts[data-id='" + data.post_id + "']");
+            var currentValue = parseInt(targetElement.text());
+            if (data.is_liked) {
+                targetElement.text(currentValue + 1);
+                showAlert(data.message);
+            } else {
+                targetElement.text(currentValue - 1);
+            }
+        } else if (data.event == 'follow') {
+            var targetElement = $(".followers_statistic[author_id='"+ data.author_id +"']");
+            var currentValue = parseInt(targetElement.text());
+            if(data.is_followed) {
+                targetElement.text(currentValue + 1);
+                showAlert(data.message);
+            } else {
+                targetElement.text(currentValue - 1);
+            }
+        };
 
 
 
@@ -172,6 +218,19 @@
                  if(data.status){
                      this_post.addClass('liked');
                      this_post.text('Liked');
+                 }
+             });
+         });
+
+         $('.follow_button').each(function() {
+             var this_follow  = $(this);
+             var author_id = $(this).attr("author_id");
+             var follower_id = $(this).attr("follower_id");
+             IsFollowedOn(author_id, follower_id , function (data) {
+                 console.log(data.status)
+                 if(data.status){
+                     this_follow.addClass('followed');
+                     this_follow.text('Followed');
                  }
              });
          });

@@ -179,3 +179,21 @@ function IsPostLiked(post_id, callback) {
         }
     });
 }
+
+function IsFollowedOn(author_id, follower_id , callback) {
+    $.ajax({
+        url: "/blog/is_followed_on",
+        headers: { 'X-CSRFToken': csrftoken },
+        type: "POST",
+        data: {
+            author_id: author_id,
+            follower_id: follower_id
+        },
+        success: function (data, textStatus, jqXHR) {
+            callback(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+}

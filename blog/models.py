@@ -36,3 +36,9 @@ class Posts_Likes(models.Model):
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     class Meta:
         db_table = 'Posts_Likes'
+
+class User_Follows(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
+    class Meta:
+        db_table = 'users_follows'

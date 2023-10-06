@@ -17,5 +17,7 @@ urlpatterns = [
     path('user-information/<id>/create-post', views.create_post, name='create_post'),
     path('like_post', views.like_post, name='like_post'),
     path('is_post_liked', views.is_post_liked, name='is_post_liked'),
-    path('main/search/', views.main_search, name='main-search')
+    path('main/search/', views.main_search, name='main-search'),
+    path('follow-on-user/', views.follow_on_user, name='follow_on_user'),
+    path('is_followed_on', views.is_followed_on, name='is_followed_on'),
 ]
